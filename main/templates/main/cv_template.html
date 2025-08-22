@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Resume - Suraj Kumar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #6c63ff;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --sidebar-width: 220px;
+            --main-padding: 30px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.5;
+            color: var(--dark-color);
+            font-size: 14px;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .cv-container {
+            display: flex;
+            width: 210mm; /* A4 width */
+            min-height: 297mm; /* A4 height */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            background: white;
+            overflow: hidden;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--primary-color);
+            color: white;
+            padding: 25px 15px;
+        }
+        
+        .profile-img-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--accent-color);
+        }
+        
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-color);
+            color: white;
+        }
+        
+        .contact-info, .social-links {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+        
+        .contact-info li, .social-links li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .contact-info i, .social-links i {
+            width: 20px;
+            margin-right: 8px;
+            color: var(--accent-color);
+            text-align: center;
+        }
+        
+        .contact-info a, .social-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 12px;
+        }
+        
+        .contact-info a:hover, .social-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .skills-list {
+            list-style: none;
+        }
+        
+        .skills-list li {
+            margin-bottom: 8px;
+        }
+        
+        .skill-name {
+            display: block;
+            margin-bottom: 3px;
+            font-size: 12px;
+        }
+        
+        .skill-bar {
+            height: 5px;
+            background-color: #34495e;
+            border-radius: 3px;
+        }
+        
+        .skill-level {
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: var(--main-padding);
+        }
+        
+        .main-section {
+            margin-bottom: 20px;
+        }
+        
+        .main-section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--accent-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .main-section-title i {
+            margin-right: 8px;
+            color: var(--accent-color);
+            font-size: 16px;
+        }
+        
+        .about-text {
+            text-align: justify;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+        
+        .experience-item, .education-item, .project-item {
+            margin-bottom: 15px;
+            page-break-inside: avoid;
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .item-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .item-date {
+            font-family: 'Poppins', sans-serif;
+            color: var(--accent-color);
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        
+        .item-subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--dark-color);
+            margin-bottom: 8px;
+        }
+        
+        .item-description {
+            text-align: justify;
+            font-size: 13px;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        
+        .tag {
+            background-color: #f0f0f0;
+            color: var(--primary-color);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+        
+        .quote-item {
+            font-style: italic;
+            margin-bottom: 10px;
+            font-size: 13px;
+            padding-left: 10px;
+            border-left: 2px solid var(--accent-color);
+        }
+        
+        /* Compact layout for single page */
+        .compact .experience-item,
+        .compact .education-item,
+        .compact .project-item {
+            margin-bottom: 12px;
+        }
+        
+        .compact .item-description {
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 992px) {
+            .cv-container {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+        }
+        
+        /* Print styles for PDF */
+        @media print {
+            body {
+                background-color: white;
+                font-size: 12px;
+            }
+            
+            .cv-container {
+                box-shadow: none;
+                width: 100%;
+            }
+            
+            .sidebar {
+                padding: 15px 10px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cv-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="profile-img-container">
+                {% with hero=herosection_set.first %}
+                {% if hero and hero.image %}
+                <img src="{{ hero.image.url }}" alt="Profile Photo" class="profile-img">
+                {% else %}
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Profile Photo" class="profile-img">
+                {% endif %}
+                {% endwith %}
+            </div>
+            
+            <h1 class="name">SURAJ KUMAR</h1>
+            
+            {% with hero=herosection_set.first %}
+            <h3 class="title">{{ hero.subtitle|default:"CSE(AIML) bachelors of technology" }}</h3>
+            {% endwith %}
+            
+            <h3 class="section-title">Contact</h3>
+            <ul class="contact-info">
+                {% with contact=contactinfo_set.first %}
+                <li><i class="fas fa-envelope"></i> <a href="mailto:{{ contact.email|default:'surajkumar.sm09@gmail.com' }}">{{ contact.email|default:'surajkumar.sm09@gmail.com' }}</a></li>
+                <li><i class="fas fa-map-marker-alt"></i> {{ contact.address|default:'Lucknow, Mohanlalganj' }}</li>
+                {% endwith %}
+            </ul>
+            
+            <h3 class="section-title">Social</h3>
+            <ul class="social-links">
+                {% for social in sociallink_set.all %}
+                {% if social.is_active %}
+                <li><i class="{{ social.icon_class }}"></i> <a href="{{ social.url }}">{{ social.platform }}</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            
+            <h3 class="section-title">Skills</h3>
+            <ul class="skills-list">
+                {% for skill in skill_set.all %}
+                {% if skill.is_active %}
+                <li>
+                    <span class="skill-name">{{ skill.name }}</span>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            
+            <h3 class="section-title">Certificates</h3>
+            <ul class="skills-list">
+                {% for cert in certificate_set.all %}
+                {% if cert.is_active %}
+                <li>
+                    <span class="skill-name">{{ cert.title }} ({{ cert.issuer }})</span>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content compact">
+            <section class="main-section">
+                <h3 class="main-section-title"><i class="fas fa-user"></i> Professional Summary</h3>
+                {% with about=aboutsection_set.first %}
+                <p class="about-text">
+                    {{ about.content|default:"Experienced developer with expertise in building scalable web applications using modern technologies. Passionate about clean code architecture and user experience." }}
+                </p>
+                {% endwith %}
+            </section>
+            
+            <section class="main-section">
+                <h3 class="main-section-title"><i class="fas fa-briefcase"></i> Experience</h3>
+                
+                {% for item in timelineitem_set.all %}
+                {% if item.category == 'career' and item.is_active %}
+                <div class="experience-item">
+                    <div class="item-header">
+                        <h4 class="item-title">{{ item.title }}</h4>
+                        <span class="item-date">{{ item.period }}</span>
+                    </div>
+                    <p class="item-description">
+                        {{ item.description }}
+                    </p>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </section>
+            
+            <section class="main-section">
+                <h3 class="main-section-title"><i class="fas fa-graduation-cap"></i> Education</h3>
+                
+                {% for item in timelineitem_set.all %}
+                {% if item.category == 'education' and item.is_active %}
+                <div class="education-item">
+                    <div class="item-header">
+                        <h4 class="item-title">{{ item.title }}</h4>
+                        <span class="item-date">{{ item.period }}</span>
+                    </div>
+                    <p class="item-description">
+                        {{ item.description }}
+                    </p>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </section>
+            
+            <section class="main-section">
+                <h3 class="main-section-title"><i class="fas fa-code-branch"></i> Projects</h3>
+                
+                {% for project in project_set.all %}
+                {% if project.is_active %}
+                <div class="project-item">
+                    <div class="item-header">
+                        <h4 class="item-title">{{ project.title }}</h4>
+                    </div>
+                    <p class="item-description">
+                        {{ project.description }}
+                    </p>
+                    <div class="tags">
+                        {% if project.demo_link %}
+                        <span class="tag"><i class="fas fa-external-link-alt"></i> <a href="{{ project.demo_link }}">Live Demo</a></span>
+                        {% endif %}
+                        {% if project.github_link %}
+                        <span class="tag"><i class="fab fa-github"></i> <a href="{{ project.github_link }}">GitHub</a></span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </section>
+            
+            <section class="main-section">
+                <h3 class="main-section-title"><i class="fas fa-quote-left"></i> Favorite Quotes</h3>
+                
+                {% for quote in quote_set.all %}
+                {% if quote.is_active %}
+                <div class="quote-item">
+                    "{{ quote.text }}"
+                </div>
+                {% endif %}
+                {% endfor %}
+            </section>
+        </main>
+    </div>
+</body>
+</html>
