@@ -152,18 +152,3 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER)
 CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", EMAIL_HOST_USER)
 
-
-from django.contrib.auth import get_user_model
-
-if os.environ.get("DJANGO_SUPERUSER_USERNAME"):
-    try:
-        User = get_user_model()
-        if not User.objects.filter(username=os.environ["DJANGO_SUPERUSER_USERNAME"]).exists():
-            User.objects.create_superuser(
-                username=os.environ["DJANGO_SUPERUSER_USERNAME"],
-                email=os.environ["DJANGO_SUPERUSER_EMAIL"],
-                password=os.environ["DJANGO_SUPERUSER_PASSWORD"],
-            )
-            print("✅ Superuser created")
-    except Exception as e:
-        print(f"⚠️ Superuser creation skipped: {e}")
