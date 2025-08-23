@@ -107,3 +107,5 @@ class ContactInfoAdmin(admin.ModelAdmin):
 @admin.register(SocialLink)
 class SocialLinkAdmin(admin.ModelAdmin):
     list_display = ("platform", "url")    
+
+

@@ -207,70 +207,158 @@ hamburger.addEventListener('click', () => {
 });
 
 // Form Submission
+// Get CSRF token
+function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        cookie = cookie.trim();
+        if (cookie.startsWith(name + '=')) return decodeURIComponent(cookie.slice(name.length + 1));
+    }
+    return null;
+}
+
+// Toast notification helper
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+        padding: 12px 20px; background: ${type === 'error' ? '#ff4d4d' : '#333'};
+        color: #fff; border-radius: 6px; z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        opacity: 0; transition: opacity 0.3s;
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.style.opacity = '1', 50);
+    setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
+}
+
 const contactForm = document.getElementById('contactForm');
+const submitBtn = contactForm.querySelector('.submit-btn');
+const csrftoken = getCookie('csrftoken');
 
-contactForm.addEventListener('submit', (e) => {
+// Overlay to block interactions
+const overlay = document.createElement('div');
+overlay.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.2); z-index: 9999; display: none;
+`;
+document.body.appendChild(overlay);
+
+let sending = false;
+let sentCount = parseInt(sessionStorage.getItem('sentCount') || '0');
+const maxMessages = 3;
+
+// Add remaining messages indicator
+let counter = document.createElement('div');
+counter.style.margin = '8px 0';
+counter.style.fontSize = '14px';
+counter.style.color = '#555';
+counter.textContent = `Messages remaining: ${maxMessages - sentCount}`;
+submitBtn.before(counter);
+
+function updateCounter() {
+    counter.textContent = `Messages remaining: ${Math.max(0, maxMessages - sentCount)}`;
+}
+
+contactForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    // Simulate form submission
-    const submitBtn = contactForm.querySelector('.submit-btn');
-    submitBtn.textContent = 'Sending...';
+    if (sending) {
+        showToast("Your message is being sent. Please wait...", "error");
+        return;
+    }
 
-    setTimeout(() => {
-        submitBtn.textContent = 'Message Sent!';
-        submitBtn.style.background = 'linear-gradient(90deg, #00cc00, #00ff00)';
-        contactForm.reset();
+    if (sentCount >= maxMessages) {
+        showToast("You have reached the maximum messages for this session.", "error");
+        return;
+    }
 
-        setTimeout(() => {
-            submitBtn.textContent = 'Send Message';
-            submitBtn.style.background = 'linear-gradient(90deg, var(--neon-purple), var(--neon-pink))';
-        }, 3000);
-    }, 1500);
-});
-
-
-
-
-// Contact form submission handling
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const form = this;
-    const submitBtn = form.querySelector('.submit-btn');
+    sending = true;
+    overlay.style.display = 'block';
     const originalText = submitBtn.textContent;
-    
-    // Show loading state
-    submitBtn.textContent = 'Sending...';
+
     submitBtn.disabled = true;
-    
-    // Submit form via AJAX
-    fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Show success message
-            alert('Message sent successfully!');
-            form.reset();
+    submitBtn.classList.add('sending');
+    submitBtn.textContent = 'Sending...';
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', window.location.href, true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+
+    xhr.onload = function () {
+        const resetBtn = () => {
+            submitBtn.textContent = originalText;
+            submitBtn.classList.remove('sending', 'sent');
+            submitBtn.disabled = false;
+            submitBtn.style.background = '';
+            overlay.style.display = 'none';
+            sending = false;
+        };
+
+        if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+                const response = JSON.parse(xhr.responseText);
+
+                if (response.success) {
+                    submitBtn.textContent = 'Message Sent!';
+                    submitBtn.classList.add('sent');
+                    submitBtn.style.background = 'linear-gradient(90deg, #00cc00, #00ff00)';
+                    const errorEl = document.querySelector('.form-errors');
+                    if (errorEl) errorEl.remove();
+
+                    sentCount++;
+                    sessionStorage.setItem('sentCount', sentCount);
+                    updateCounter();
+
+                    setTimeout(() => {
+                        contactForm.reset();
+                        resetBtn();
+                    }, 2000);
+
+                } else {
+                    submitBtn.textContent = 'Error!';
+                    submitBtn.style.background = 'linear-gradient(90deg, #ff4d4d, #ff3333)';
+
+                    let errorHtml = '<div class="form-errors"><ul>';
+                    try {
+                        const errorData = JSON.parse(response.error);
+                        for (const field in errorData)
+                            errorData[field].forEach(err => errorHtml += `<li>${field}: ${err.message}</li>`);
+                    } catch {
+                        errorHtml += `<li>${response.error}</li>`;
+                    }
+                    errorHtml += '</ul></div>';
+
+                    const existingErrors = document.querySelector('.form-errors');
+                    if (existingErrors) existingErrors.remove();
+                    contactForm.insertAdjacentHTML('afterbegin', errorHtml);
+
+                    setTimeout(resetBtn, 3000);
+                }
+            } catch {
+                window.location.reload();
+            }
         } else {
-            // Show error message
-            alert('There was an error sending your message. Please try again.');
+            setTimeout(resetBtn, 3000);
         }
-    })
-    .catch(error => {
-        alert('There was an error sending your message. Please try again.');
-    })
-    .finally(() => {
-        // Reset button state
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    });
+    };
+
+    xhr.onerror = function () {
+        submitBtn.textContent = 'Network Error!';
+        submitBtn.style.background = 'linear-gradient(90deg, #ff4d4d, #ff3333)';
+        setTimeout(() => {
+            submitBtn.textContent = originalText;
+            submitBtn.classList.remove('sending');
+            submitBtn.disabled = false;
+            overlay.style.display = 'none';
+            sending = false;
+        }, 3000);
+    };
+
+    xhr.send(new FormData(contactForm));
 });
+
 
 
 
@@ -418,3 +506,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     modal.querySelector('.modal-content').appendChild(zoomControls);
 });
+
+
+     

@@ -8,6 +8,9 @@ db.sqlite3
 media/
 .env
 
+# Django settings
+**/settings.py 
+
 # VS Code
 .vscode/
 

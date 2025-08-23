@@ -20,8 +20,9 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
-    path('secret-admin-portal-sm09/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('', include('main.urls')),
 ]
 

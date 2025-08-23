@@ -5,10 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberDev | AI & Web Developer</title>
+    <title>Portfolio | suraj</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
-    </style>
+    
 </head>
 
 <body>
@@ -22,7 +22,7 @@
                 ViSONERY<span>sm</span>
                 {% endif %}
             </a>
-            <button class="hamburger" id="hamburger">
+             <button class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="nav-links" id="navLinks">
@@ -55,20 +55,26 @@
                     <a href="#contact" class="btn btn-primary">Hire Me</a>
                     <a href="#projects" class="btn btn-secondary">View Projects</a>
                 </div>
-             <div class="counters">
-                <div class="counter-item">
-                    <div class="counter-number" data-target="{% if hero_section %}{{ hero_section.projects_count }}{% else %}42{% endif %}">0</div>
-                    <div class="counter-text">Projects</div>
+                <div class="counters">
+                    <div class="counter-item">
+                        <div class="counter-number"
+                            data-target="{% if hero_section %}{{ hero_section.projects_count }}{% else %}42{% endif %}">
+                            0</div>
+                        <div class="counter-text">Projects</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number"
+                            data-target="{% if hero_section %}{{ hero_section.clients_count }}{% else %}28{% endif %}">0
+                        </div>
+                        <div class="counter-text">Clients</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number"
+                            data-target="{% if hero_section %}{{ hero_section.experience_count }}{% else %}5{% endif %}">
+                            0</div>
+                        <div class="counter-text">Experience</div>
+                    </div>
                 </div>
-                <div class="counter-item">
-                    <div class="counter-number" data-target="{% if hero_section %}{{ hero_section.clients_count }}{% else %}28{% endif %}">0</div>
-                    <div class="counter-text">Clients</div>
-                </div>
-                <div class="counter-item">
-                    <div class="counter-number" data-target="{% if hero_section %}{{ hero_section.experience_count }}{% else %}5{% endif %}">0</div>
-                    <div class="counter-text">Experience</div>
-                </div>
-            </div>
                 <div class="cyberpunk-quotes">
                     {% for quote in quotes %}
                     <div class="quote">"{{ quote.text }}"</div>
@@ -208,64 +214,65 @@
         </div>
     </section>
 
-   <!-- Certificates Section -->
-<section id="certificates">
-    <div class="container">
-        <h2 class="section-title">My Certificates</h2>
-        <div class="certificates-grid">
-            {% for certificate in certificates %}
-            <div class="certificate-card">
-                <div class="certificate-inner">
-                    <div class="certificate-front">
-                        <div class="certificate-image">
+    <!-- Certificates Section -->
+    <section id="certificates">
+        <div class="container">
+            <h2 class="section-title">My Certificates</h2>
+            <div class="certificates-grid">
+                {% for certificate in certificates %}
+                <div class="certificate-card">
+                    <div class="certificate-inner">
+                        <div class="certificate-front">
+                            <div class="certificate-image">
+                                {% if certificate.image %}
+                                <img src="{{ certificate.image.url }}" alt="{{ certificate.title }}">
+                                {% else %}
+                                <img src="{% static 'main/images/default-certificate.png' %}" alt="Certificate">
+                                {% endif %}
+                            </div>
+                            <h3>{{ certificate.title }}</h3>
+                            <p>{{ certificate.issuer }}</p>
+                            <button class="view-btn" data-img="{{ certificate.image.url }}">View Certificate</button>
+                        </div>
+                        <div class="certificate-back">
+                            <p>{{ certificate.description }}</p>
+                            {% if certificate.issue_date %}
+                            <p><small>Issued: {{ certificate.issue_date }}</small></p>
+                            {% endif %}
                             {% if certificate.image %}
-                            <img src="{{ certificate.image.url }}" alt="{{ certificate.title }}">
-                            {% else %}
-                            <img src="{% static 'main/images/default-certificate.png' %}" alt="Certificate">
+                            <button class="view-btn" data-img="{{ certificate.image.url }}">View Certificate</button>
                             {% endif %}
                         </div>
-                        <h3>{{ certificate.title }}</h3>
-                        <p>{{ certificate.issuer }}</p>
-                        <button class="view-btn" data-img="{{ certificate.image.url }}">View Certificate</button>
-                    </div>
-                    <div class="certificate-back">
-                        <p>{{ certificate.description }}</p>
-                        {% if certificate.issue_date %}
-                        <p><small>Issued: {{ certificate.issue_date }}</small></p>
-                        {% endif %}
-                        {% if certificate.image %}
-                        <button class="view-btn" data-img="{{ certificate.image.url }}">View Certificate</button>
-                        {% endif %}
                     </div>
                 </div>
-            </div>
-            {% empty %}
-            <!-- Example card if no certificates exist -->
-            <div class="certificate-card">
-                <div class="certificate-inner">
-                    <div class="certificate-front">
-                        <div class="certificate-image">
-                            <img src="{% static 'main/images/default-certificate.png' %}" alt="Certificate">
+                {% empty %}
+                <!-- Example card if no certificates exist -->
+                <div class="certificate-card">
+                    <div class="certificate-inner">
+                        <div class="certificate-front">
+                            <div class="certificate-image">
+                                <img src="{% static 'main/images/default-certificate.png' %}" alt="Certificate">
+                            </div>
+                            <h3>Advanced AI Specialist</h3>
+                            <p>Neon University</p>
+                            <button class="view-btn" data-img="{% static 'main/images/default-certificate.png' %}">View
+                                Certificate</button>
                         </div>
-                        <h3>Advanced AI Specialist</h3>
-                        <p>Neon University</p>
-                        <button class="view-btn" data-img="{% static 'main/images/default-certificate.png' %}">View Certificate</button>
-                    </div>
-                    <div class="certificate-back">
-                        <p>Completed advanced studies in AI with ethical focus.</p>
+                        <div class="certificate-back">
+                            <p>Completed advanced studies in AI with ethical focus.</p>
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
-    </div>
-</section>
+    </section>
 
-<!--  Certificate Popup Modal -->
-<div id="certificateModal" class="modal">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="modalImg">
-</div>
+    <!--  Certificate Popup Modal -->
+    <div id="certificateModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImg">
+    </div>
 
     <!-- Projects Section -->
     <section id="projects">
@@ -336,9 +343,9 @@
                         <div class="form-errors">
                             <ul>
                                 {% for field in form %}
-                                    {% for error in field.errors %}
-                                    <li>{{ field.label }}: {{ error }}</li>
-                                    {% endfor %}
+                                {% for error in field.errors %}
+                                <li>{{ field.label }}: {{ error }}</li>
+                                {% endfor %}
                                 {% endfor %}
                                 {% for error in form.non_field_errors %}
                                 <li>{{ error }}</li>
@@ -364,47 +371,53 @@
 
                 </div>
                 <div class="contact-info">
-                <div class="bio-card">
-                <h3>{{ contact_info.title }}</h3>
-                    <p>{{ contact_info.description }}</p>
-                    <p class="mt-20">
-                    <i class="fas fa-envelope text-neon-cyan"></i> {{ contact_info.email }}
-                    </p>
-                    <p class="mt-20">
-                    <i class="fas fa-map-marker-alt text-neon-cyan"></i> {{ contact_info.address }}
-                    </p>
+                    <div class="bio-card">
+                        <h3>{{ contact_info.title }}</h3>
+                        <p>{{ contact_info.description }}</p>
+                        <p class="mt-20">
+                            <i class="fas fa-envelope text-neon-cyan"></i> {{ contact_info.email }}
+                        </p>
+                        <p class="mt-20">
+                            <i class="fas fa-map-marker-alt text-neon-cyan"></i> {{ contact_info.address }}
+                        </p>
+                    </div>
                 </div>
-           </div>
             </div>
-         <div class="social-icons">
-    {% for link in social_links %}
-        <a href="{{ link.url }}" class="social-icon" target="_blank">
-            <i class="{{ link.icon_class }}"></i>
-        </a>
-    {% empty %}
-        <p>No social links added yet.</p>
-    {% endfor %}
-</div>
+            <div class="social-icons">
+                {% for link in social_links %}
+                <a href="{{ link.url }}" class="social-icon" target="_blank">
+                    <i class="{{ link.icon_class }}"></i>
+                </a>
+                {% empty %}
+                <p>No social links added yet.</p>
+                {% endfor %}
+            </div>
         </div>
     </section>
 
 <!-- Footer -->
+
 <footer>
-    <div class="container footer-content">
-        <div class="footer-text">
-            <p>&copy; Copyright 2025 Suraj-km09. All rights reserved.</p>
-            <p>Developed by Suraj Kumar</p>
-        </div>
-        <div class="footer-actions">
-            <a href="{% url 'generate_cv_pdf' %}" class="btn-download-cv" target="_blank">
-                <i class="fas fa-download"></i> Download CV
-            </a>
-        </div>
+  <div class="footer-content">
+    <div class="footer-text">
+      <p>Thanks for visiting my portfolio 🌟</p>  
+      <P>Crafted with code, coffee, and curiosity. Powered by Django ·</p>
+      
     </div>
+    <div class="footer-actions">
+      <a href="{% url 'generate_cv_pdf' %}" class="btn-download-cv" target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-download"></i> Download Resume
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Suraj-km09. All rights reserved.</p>
+      <p>Developed by Suraj Kumar</p>
+  </div>
 </footer>
 
     <script src="{% static 'main/js/script.js' %}"></script>
-    
+
 </body>
 
 </html>

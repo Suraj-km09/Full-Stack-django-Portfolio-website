@@ -424,17 +424,6 @@
                 {% endfor %}
             </section>
             
-            <section class="main-section">
-                <h3 class="main-section-title"><i class="fas fa-quote-left"></i> Favorite Quotes</h3>
-                
-                {% for quote in quote_set.all %}
-                {% if quote.is_active %}
-                <div class="quote-item">
-                    "{{ quote.text }}"
-                </div>
-                {% endif %}
-                {% endfor %}
-            </section>
         </main>
     </div>
 </body>
